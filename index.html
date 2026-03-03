@@ -3,433 +3,226 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Estratégico · Análisis de Utilidad</title>
-    <!-- Font Awesome 6 (free) -->
+    <title>Dashboard ordenado · util·board ranking</title>
+    <!-- Font Awesome 6 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <!-- Google Fonts (Inter + Space Grotesk para títulos) -->
+    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&family=Space+Grotesk:wght@500;600&display=swap" rel="stylesheet">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            background-color: #f4f7fb;
+            background: #f6f9fe;
             font-family: 'Inter', sans-serif;
             padding: 2rem 1.5rem;
-            color: #1e293b;
+            color: #152b42;
             line-height: 1.5;
         }
+        .dashboard-container { max-width: 1440px; margin: 0 auto; }
 
-        .dashboard-container {
-            max-width: 1440px;
-            margin: 0 auto;
-        }
-
-        /* Header con título y KPI rápido */
         .header {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 2rem;
+            display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center;
+            margin-bottom: 2rem; gap: 1.2rem;
         }
-
         .title-section h1 {
-            font-family: 'Space Grotesk', sans-serif;
-            font-weight: 600;
-            font-size: 2rem;
-            color: #0f172a;
-            letter-spacing: -0.02em;
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
+            font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 2rem;
+            color: #0c2036; display: flex; align-items: center; gap: 0.8rem;
         }
-
-        .title-section h1 i {
-            color: #3b82f6;
-            font-size: 2rem;
-        }
-
+        .title-section h1 i { color: #2b6ef0; font-size: 2.2rem; filter: drop-shadow(0 4px 6px #abc0dd); }
         .kpi-strip {
-            display: flex;
-            gap: 1.5rem;
-            background: white;
-            padding: 0.8rem 2rem;
-            border-radius: 60px;
-            box-shadow: 0 8px 20px -6px rgba(0, 20, 40, 0.12);
-            border: 1px solid #e9eef3;
+            display: flex; flex-wrap: wrap; gap: 1rem; background: white;
+            padding: 0.7rem 2rem; border-radius: 50px; box-shadow: 0 10px 18px -8px rgba(20, 50, 80, 0.15);
+            border: 1px solid #dbe6f2;
         }
-
         .kpi-item {
-            display: flex;
-            align-items: center;
-            gap: 0.6rem;
-            font-weight: 500;
+            display: flex; align-items: center; gap: 0.8rem; font-weight: 500;
         }
-
         .kpi-item i {
-            color: #3b82f6;
-            background: #eef2ff;
-            padding: 0.4rem;
-            border-radius: 50%;
-            font-size: 0.9rem;
-            width: 28px;
-            height: 28px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            color: #2b6ef0; background: #e7f0fe; padding: 0.5rem; border-radius: 40%;
+            font-size: 1rem; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center;
         }
+        .kpi-label { font-size: 0.8rem; text-transform: uppercase; color: #4f658d; }
+        .kpi-value { font-weight: 700; font-size: 1.35rem; color: #152b42; margin-left: 0.2rem; }
 
-        .kpi-label {
-            font-size: 0.85rem;
-            text-transform: uppercase;
-            letter-spacing: 0.03em;
-            color: #5f6c84;
-        }
-
-        .kpi-value {
-            font-weight: 700;
-            font-size: 1.25rem;
-            color: #0f172a;
-            margin-left: 0.25rem;
-        }
-
-        /* Grid principal */
         .grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 1.5rem;
-            margin-bottom: 1.5rem;
+            display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; margin-bottom: 1.8rem;
         }
-
         .card {
-            background: white;
-            border-radius: 24px;
-            padding: 1.25rem 1.5rem;
-            box-shadow: 0 12px 30px -8px rgba(0, 20, 40, 0.1);
-            border: 1px solid #eef2f6;
-            transition: all 0.2s ease;
+            background: white; border-radius: 28px; padding: 1.3rem 1.3rem 1.5rem;
+            box-shadow: 0 18px 30px -10px rgba(16, 42, 80, 0.12); border: 1px solid #e7eefa;
+            transition: transform 0.1s ease;
         }
-
-        .card:hover {
-            box-shadow: 0 20px 35px -12px rgba(0, 80, 160, 0.15);
-            border-color: #d9e2ef;
-        }
-
+        .card:hover { box-shadow: 0 24px 36px -14px #1e4f8a33; }
         .card-header {
-            display: flex;
-            align-items: center;
-            gap: 0.6rem;
-            margin-bottom: 1.2rem;
-            border-bottom: 1px dashed #dee7f0;
-            padding-bottom: 0.8rem;
+            display: flex; align-items: center; gap: 0.6rem; margin-bottom: 1.2rem;
+            border-bottom: 2px solid #edf3fc; padding-bottom: 0.7rem;
         }
-
         .card-header i {
-            font-size: 1.2rem;
-            color: #3b82f6;
-            background: #eef2ff;
-            padding: 0.5rem;
-            border-radius: 12px;
+            font-size: 1.3rem; color: #2b6ef0; background: #ecf3ff; padding: 0.5rem; border-radius: 14px;
+        }
+        .card-header h3 { font-weight: 650; font-size: 1.05rem; color: #183b56; }
+        .card-header .badge {
+            margin-left: auto; background: #ecf3fa; padding: 0.2rem 0.9rem; border-radius: 40px;
+            font-size: 0.7rem; font-weight: 600; color: #1e4a7a;
         }
 
-        .card-header h3 {
-            font-weight: 600;
-            font-size: 1.1rem;
-            letter-spacing: -0.01em;
-            color: #1e3a5f;
+        /* barras */
+        .bar-chart { width: 100%; margin-top: 0.5rem; }
+        .bar-item { display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.8rem; }
+        .bar-label { min-width: 30px; font-weight: 600; font-size: 0.85rem; color: #264e7b; }
+        .bar-fill { flex: 1; height: 26px; background: #eaf1fb; border-radius: 30px; overflow: hidden; box-shadow: inset 0 2px 4px #cdddec; }
+        .bar-progress {
+            height: 100%; background: linear-gradient(90deg, #3b82f6, #629bf5); border-radius: 30px;
+            color: white; font-size: 0.7rem; display: flex; align-items: center; justify-content: flex-end;
+            padding-right: 10px; font-weight: 600; text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+        }
+        .value-right { font-weight: 700; font-size: 0.9rem; min-width: 70px; text-align: right; color: #1f3a5f; }
+
+        /* ciudad */
+        .city-grid-expanded {
+            display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.5rem 1.2rem;
+            max-height: 260px; overflow-y: auto; padding-right: 6px;
+        }
+        .city-bar-row {
+            display: flex; align-items: center; gap: 0.6rem; font-size: 0.85rem;
+        }
+        .city-name { width: 100px; font-weight: 500; display: flex; align-items: center; gap: 4px; }
+        .city-rank { background: #d9e7fa; border-radius: 30px; padding: 0.1rem 0.5rem; font-size: 0.65rem; font-weight: 600; }
+        .bar-bg { flex: 1; height: 20px; background: #e7f0fc; border-radius: 40px; overflow: hidden; }
+        .bar-fill-city { height: 100%; background: linear-gradient(90deg, #f97316, #fb923c); border-radius: 40px; width: 0%; }
+        .city-value { min-width: 65px; text-align: right; font-weight: 600; color: #183b56; }
+
+        .util-mes-mod { display: flex; flex-direction: column; gap: 0.8rem; margin: 1rem 0 0.3rem; }
+        .mes-row { display: flex; align-items: center; gap: 0.6rem; }
+        .mes-name { width: 70px; font-weight: 600; }
+        .mes-bar { flex: 1; height: 28px; background: #e1ecfc; border-radius: 30px; overflow: hidden; }
+        .mes-progress {
+            height: 100%; background: linear-gradient(90deg, #3b82f6, #7aa9f5); border-radius: 30px;
+            display: flex; align-items: center; justify-content: flex-end; padding-right: 12px;
+            color: white; font-size: 0.75rem; font-weight: 600;
+        }
+        .variation-badge {
+            background: #fff2df; border-radius: 30px; padding: 0.4rem 1.2rem; font-size: 0.8rem;
+            font-weight: 600; color: #b85e00; display: inline-flex; align-items: center; gap: 6px; width: fit-content;
         }
 
-        .card-header span.sub {
-            margin-left: auto;
-            font-size: 0.8rem;
-            color: #64748b;
-            font-weight: 400;
-        }
-
-        /* tablas internas compactas */
-        .mini-table {
-            width: 100%;
-            font-size: 0.9rem;
-            border-collapse: collapse;
-        }
-
-        .mini-table td {
-            padding: 0.4rem 0;
-            border-bottom: 1px solid #f1f5f9;
-        }
-
-        .mini-table tr:last-child td {
-            border-bottom: none;
-        }
-
-        .value {
-            font-weight: 600;
-            text-align: right;
-            font-family: 'Space Grotesk', monospace;
-        }
-
-        .badge {
-            background: #f1f5f9;
-            padding: 0.2rem 0.8rem;
-            border-radius: 30px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            color: #2c3e5c;
-        }
-
-        .highlight {
-            background: #fef9e7;
-            font-weight: 700;
-            color: #b45309;
-        }
-
-        .color-bar {
-            width: 4px;
-            height: 16px;
-            border-radius: 4px;
-            margin-right: 6px;
-            display: inline-block;
-        }
-
-        .accent-A { background-color: #3b82f6; }
-        .accent-B { background-color: #f97316; }
-        .accent-C { background-color: #10b981; }
-        .accent-D { background-color: #8b5cf6; }
-
-        .city-list {
-            max-height: 200px;
-            overflow-y: auto;
-            font-size: 0.85rem;
-            margin-top: 0.3rem;
-            padding-right: 0.3rem;
-        }
-
-        .city-item {
-            display: flex;
-            justify-content: space-between;
-            padding: 0.4rem 0;
-            border-bottom: 1px solid #f0f4fa;
-        }
-
-        .city-name {
-            display: flex;
-            align-items: center;
-            gap: 0.3rem;
-        }
-
-        .city-rank {
-            color: #64748b;
-            font-size: 0.7rem;
-            background: #f1f5f9;
-            border-radius: 10px;
-            padding: 0.1rem 0.4rem;
-        }
-
-        .util-mes {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 0.5rem;
-            background: #f8fafd;
-            border-radius: 18px;
-            padding: 0.7rem 1rem;
-        }
-
-        .util-mes span:first-child {
-            font-weight: 600;
-            color: #334155;
-        }
-
-        .util-mes span:last-child {
-            font-weight: 700;
-            color: #0f172a;
-            font-size: 1.2rem;
-        }
-
-        /* Fase 3 y 4: hallazgos y decisiones */
         .insight-grid {
-            display: grid;
-            grid-template-columns: 1.2fr 0.9fr 1.2fr;
-            gap: 1.5rem;
-            margin-top: 1.8rem;
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin: 2rem 0 1rem;
         }
-
         .insight-card {
-            background: #ffffffd6;
-            backdrop-filter: blur(2px);
-            border-radius: 24px;
-            padding: 1.4rem 1.5rem;
-            border: 1px solid #e2eaf2;
-            box-shadow: 0 10px 20px -12px rgba(0,0,0,0.1);
+            background: white; border-radius: 24px; padding: 1.4rem 1.5rem;
+            border: 1px solid #dde7f0; box-shadow: 0 10px 18px -12px #12345630;
         }
-
         .insight-card h4 {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-weight: 600;
-            margin-bottom: 1.2rem;
-            font-size: 1rem;
-            text-transform: uppercase;
-            letter-spacing: 0.02em;
-            color: #334155;
+            display: flex; align-items: center; gap: 0.5rem; font-weight: 650;
+            margin-bottom: 1.2rem; color: #203f61;
         }
-
-        .insight-card h4 i {
-            color: #2563eb;
-        }
-
         .qa-block p {
-            margin-bottom: 0.7rem;
-            display: flex;
-            justify-content: space-between;
-            border-bottom: 1px dashed #dce5f0;
-            padding-bottom: 0.4rem;
+            display: flex; justify-content: space-between; border-bottom: 1px dashed #c7d9ec;
+            padding-bottom: 0.5rem; margin-bottom: 0.5rem;
         }
-
-        .qa-block strong {
-            color: #1e3a5f;
-        }
-
-        .qa-block .answer {
-            font-weight: 700;
-            background: #eaf3ff;
-            padding: 0.2rem 0.8rem;
-            border-radius: 20px;
-            color: #1e4a8b;
-        }
-
-        .bullet-list {
-            list-style: none;
-        }
-
-        .bullet-list li {
-            margin-bottom: 0.8rem;
-            font-size: 0.9rem;
-            display: flex;
-            gap: 0.6rem;
-        }
-
-        .bullet-list i.fa-circle-check {
-            color: #10b981;
-            margin-top: 0.2rem;
-            font-size: 0.85rem;
-        }
-
-        .bullet-list i.fa-triangle-exclamation {
-            color: #f59e0b;
-        }
-
-        .limitaciones {
-            background: #f8f3f0;
-            border-radius: 16px;
-            padding: 1rem;
-            margin-top: 1rem;
-            font-size: 0.85rem;
-            border-left: 4px solid #f97316;
-        }
-
+        .qa-block .answer { background: #e3f0ff; border-radius: 30px; padding: 0.2rem 1rem; font-weight: 700; color: #1d4e89; }
+        .bullet-list { list-style: none; }
+        .bullet-list li { margin-bottom: 0.8rem; display: flex; gap: 0.8rem; font-size: 0.9rem; }
+        .bullet-list i.fa-circle-check { color: #0f9d58; }
+        .bullet-list i.fa-triangle-exclamation { color: #f97316; }
+        .limitaciones { background: #fef6ee; border-left: 5px solid #f97316; padding: 1rem; border-radius: 18px; margin-top: 1rem; }
         .footnote {
-            margin-top: 2rem;
-            text-align: center;
-            color: #5f6c84;
-            font-size: 0.8rem;
-            border-top: 1px solid #d9e2ec;
-            padding-top: 1.2rem;
+            margin-top: 2.5rem; text-align: center; color: #58748c; font-size: 0.8rem;
+            border-top: 1px solid #cbdae9; padding-top: 1.2rem;
+        }
+
+        @media (max-width: 1100px) {
+            .grid { grid-template-columns: repeat(2, 1fr); }
+            .city-grid-expanded { grid-template-columns: repeat(2, 1fr); }
+            .insight-grid { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 680px) {
+            body { padding: 1.2rem; }
+            .grid { grid-template-columns: 1fr; }
+            .city-grid-expanded { grid-template-columns: 1fr; }
+            .kpi-strip { width: 100%; justify-content: center; }
         }
     </style>
 </head>
 <body>
 <div class="dashboard-container">
-    <!-- Cabecera + KPI rápidos -->
     <div class="header">
         <div class="title-section">
-            <h1><i class="fas fa-chart-line"></i> util·board <span style="font-weight:400; color:#475569; font-size:1.2rem;">análisis estratégico</span></h1>
+            <h1><i class="fas fa-chart-bar"></i> util·board <span style="font-weight:400; color:#40668c;">| ranking ↓</span></h1>
         </div>
         <div class="kpi-strip">
-            <div class="kpi-item"><i class="fas fa-box"></i><span class="kpi-label">Total artículos</span><span class="kpi-value">150</span></div>
-            <div class="kpi-item"><i class="fas fa-dollar-sign"></i><span class="kpi-label">Utilidad total</span><span class="kpi-value">$7,846.50</span></div>
-            <div class="kpi-item"><i class="fas fa-calendar"></i><span class="kpi-label">Meses</span><span class="kpi-value">2</span></div>
+            <div class="kpi-item"><i class="fas fa-box"></i><span><span class="kpi-label">artículos</span><span class="kpi-value">150</span></span></div>
+            <div class="kpi-item"><i class="fas fa-dollar-sign"></i><span><span class="kpi-label">utilidad</span><span class="kpi-value">$7,846</span></span></div>
+            <div class="kpi-item"><i class="fas fa-calendar"></i><span><span class="kpi-label">meses</span><span class="kpi-value">2</span></span></div>
         </div>
     </div>
 
-    <!-- Grid principal (5 visualizaciones) -->
     <div class="grid">
-        <!-- 1. Artículos por Categoría -->
+        <!-- 1. artículos por categoría (orden natural, ya está ordenado por etiqueta) -->
         <div class="card">
-            <div class="card-header"><i class="fas fa-tags"></i><h3>Artículos por Categoría</h3><span class="badge">total 150</span></div>
-            <table class="mini-table">
-                <tr><td><span class="color-bar accent-A"></span>A</td><td class="value">121</td></tr>
-                <tr><td><span class="color-bar accent-B"></span>B</td><td class="value">123</td></tr>
-                <tr><td><span class="color-bar accent-C"></span>C</td><td class="value">127</td></tr>
-                <tr><td><span class="color-bar accent-D"></span>D</td><td class="value">116</td></tr>
-            </table>
+            <div class="card-header"><i class="fas fa-tags"></i><h3>Artículos / categoría</h3><span class="badge">total 150</span></div>
+            <div class="bar-chart">
+                <div class="bar-item"><span class="bar-label">A</span><div class="bar-fill"><div class="bar-progress" style="width:95%">121</div></div><span class="value-right">121 und</span></div>
+                <div class="bar-item"><span class="bar-label">B</span><div class="bar-fill"><div class="bar-progress" style="width:97%">123</div></div><span class="value-right">123 und</span></div>
+                <div class="bar-item"><span class="bar-label">C</span><div class="bar-fill"><div class="bar-progress" style="width:100%">127</div></div><span class="value-right">127 und</span></div>
+                <div class="bar-item"><span class="bar-label">D</span><div class="bar-fill"><div class="bar-progress" style="width:91%">116</div></div><span class="value-right">116 und</span></div>
+            </div>
         </div>
-        <!-- 2. Utilidad por Categoría -->
+        <!-- 2. utilidad por categoría (ordenada de mayor a menor: B, C, A, D) -->
         <div class="card">
-            <div class="card-header"><i class="fas fa-coins"></i><h3>Utilidad por Categoría</h3></div>
-            <table class="mini-table">
-                <tr><td><span class="color-bar accent-A"></span>A</td><td class="value">$1,892.80</td></tr>
-                <tr><td><span class="color-bar accent-B"></span>B</td><td class="value">$2,049.60</td></tr>
-                <tr><td><span class="color-bar accent-C"></span>C</td><td class="value">$1,982.70</td></tr>
-                <tr><td><span class="color-bar accent-D"></span>D</td><td class="value">$1,921.40</td></tr>
-            </table>
+            <div class="card-header"><i class="fas fa-coins"></i><h3>Utilidad por categoría</h3></div>
+            <div class="bar-chart">
+                <div class="bar-item"><span class="bar-label">B</span><div class="bar-fill"><div class="bar-progress" style="width:100%; background:linear-gradient(90deg,#f97316,#fb8b3c)">$2,049</div></div><span class="value-right">$2,049</span></div>
+                <div class="bar-item"><span class="bar-label">C</span><div class="bar-fill"><div class="bar-progress" style="width:96%; background:linear-gradient(90deg,#f97316,#fb8b3c)">$1,982</div></div><span class="value-right">$1,982</span></div>
+                <div class="bar-item"><span class="bar-label">A</span><div class="bar-fill"><div class="bar-progress" style="width:92%; background:linear-gradient(90deg,#f97316,#fb8b3c)">$1,892</div></div><span class="value-right">$1,892</span></div>
+                <div class="bar-item"><span class="bar-label">D</span><div class="bar-fill"><div class="bar-progress" style="width:93%; background:linear-gradient(90deg,#f97316,#fb8b3c)">$1,921</div></div><span class="value-right">$1,921</span></div>
+            </div>
         </div>
-        <!-- 3. Utilidad por Artículo (5 ejemplos + total) -->
+        <!-- 3. utilidad por artículo (TOP 5 DE MAYOR A MENOR) -->
         <div class="card">
-            <div class="card-header"><i class="fas fa-cube"></i><h3>Utilidad por Artículo</h3><span class="badge">top 5</span></div>
-            <table class="mini-table">
-                <tr><td>Artículo 136</td><td class="value">$165.60</td></tr>
-                <tr><td>Artículo 122</td><td class="value">$160.00</td></tr>
-                <tr><td>Artículo 59</td><td class="value">$172.00</td></tr>
-                <tr><td>Artículo 54</td><td class="value">$218.40</td></tr>
-                <tr><td>Artículo 35</td><td class="value">$184.80</td></tr>
-                <tr style="border-top:2px solid #eef2f6;"><td><strong>Total muestra</strong></td><td class="value"><strong>$900.80</strong></td></tr>
-            </table>
+            <div class="card-header"><i class="fas fa-cube"></i><h3>Utilidad top 5</h3><span class="badge">orden ↓</span></div>
+            <div class="bar-chart">
+                <div class="bar-item"><span class="bar-label" style="min-width:70px;">Art.54</span><div class="bar-fill"><div class="bar-progress" style="width:100%; background:#10b981">$218</div></div><span class="value-right">$218</span></div>
+                <div class="bar-item"><span class="bar-label" style="min-width:70px;">Art.35</span><div class="bar-fill"><div class="bar-progress" style="width:85%; background:#10b981">$185</div></div><span class="value-right">$185</span></div>
+                <div class="bar-item"><span class="bar-label" style="min-width:70px;">Art.59</span><div class="bar-fill"><div class="bar-progress" style="width:79%; background:#10b981">$172</div></div><span class="value-right">$172</span></div>
+                <div class="bar-item"><span class="bar-label" style="min-width:70px;">Art.136</span><div class="bar-fill"><div class="bar-progress" style="width:76%; background:#10b981">$166</div></div><span class="value-right">$166</span></div>
+                <div class="bar-item"><span class="bar-label" style="min-width:70px;">Art.122</span><div class="bar-fill"><div class="bar-progress" style="width:74%; background:#10b981">$160</div></div><span class="value-right">$160</span></div>
+                <div style="margin-top:0.6rem; background:#eaf4fc; border-radius:40px; padding:0.4rem 1rem; text-align:center; font-size:0.9rem;"><strong>∑ top5  $900</strong> / total $7,846</div>
+            </div>
         </div>
-        <!-- 4. Utilidad por Mes (Ene/Feb) -->
+        <!-- 4. utilidad por mes (sin cambios, solo dos meses) -->
         <div class="card">
-            <div class="card-header"><i class="fas fa-calendar-alt"></i><h3>Utilidad por Mes</h3></div>
-            <div class="util-mes"><span><i class="far fa-calendar" style="margin-right:6px;"></i>Enero</span><span>$4,128.30</span></div>
-            <div class="util-mes" style="background:#f1f6fd;"><span><i class="far fa-calendar" style="margin-right:6px;"></i>Febrero</span><span>$3,718.20</span></div>
-            <div style="margin-top:0.7rem; font-size:0.8rem; background:#ebf0f8; border-radius:30px; padding:0.3rem 1rem; text-align:center;">
-                <i class="fas fa-arrow-down" style="color:#d97706;"></i>  variación -9.9%
+            <div class="card-header"><i class="fas fa-calendar-alt"></i><h3>Utilidad mensual</h3></div>
+            <div class="util-mes-mod">
+                <div class="mes-row"><span class="mes-name">Enero</span><div class="mes-bar"><div class="mes-progress" style="width:100%;">$4,128</div></div></div>
+                <div class="mes-row"><span class="mes-name">Febrero</span><div class="mes-bar"><div class="mes-progress" style="width:90%;">$3,718</div></div></div>
+                <div class="variation-badge"><i class="fas fa-arrow-down"></i> variación -9.9% vs ene</div>
             </div>
         </div>
     </div>
 
-    <!-- Fila extra: 5. Utilidad por Ciudad (extensa) con grid propio -->
-    <div class="card" style="grid-column: 1 / -1; margin-bottom: 0.5rem;">
-        <div class="card-header"><i class="fas fa-city"></i><h3>Utilidad por Ciudad · ranking completo</h3><span class="badge">13 ciudades · total $7,846.50</span></div>
-        <div style="display:grid; grid-template-columns: repeat(4, 1fr); gap: 0.8rem 1.5rem;" class="city-list">
-            <!-- datos extraídos de la última captura -->
-            <div class="city-item"><span class="city-name"><span class="city-rank">1</span>Atlanta</span><span class="value">$623.50</span></div>
-            <div class="city-item"><span class="city-name"><span class="city-rank">2</span>Chicago</span><span class="value">$745.40</span></div>
-            <div class="city-item"><span class="city-name"><span class="city-rank">3</span>Dallas</span><span class="value">$529.40</span></div>
-            <div class="city-item"><span class="city-name"><span class="city-rank">4</span>Denver</span><span class="value">$656.20</span></div>
-            <div class="city-item"><span class="city-name"><span class="city-rank">5</span>Houston</span><span class="value">$600.90</span></div>
-            <div class="city-item"><span class="city-name"><span class="city-rank">6</span>Los Angeles</span><span class="value">$554.90</span></div>
-            <div class="city-item"><span class="city-name"><span class="city-rank">7</span>Miami</span><span class="value">$540.40</span></div>
-            <div class="city-item"><span class="city-name"><span class="city-rank">8</span>Nueva York</span><span class="value">$585.40</span></div>
-            <div class="city-item"><span class="city-name"><span class="city-rank">9</span>Orlando</span><span class="value">$586.60</span></div>
-            <div class="city-item"><span class="city-name"><span class="city-rank">10</span>Phoenix</span><span class="value">$567.10</span></div>
-            <div class="city-item"><span class="city-name"><span class="city-rank">11</span>San Diego</span><span class="value">$648.40</span></div>
-            <div class="city-item"><span class="city-name"><span class="city-rank">12</span>San Francisco</span><span class="value">$575.30</span></div>
-            <div class="city-item"><span class="city-name"><span class="city-rank">13</span>Seattle</span><span class="value">$633.00</span></div>
+    <!-- CIUDADES: ahora ordenadas de Mayor a menor utilidad (Chicago 745, Denver 656, San Diego 648, Seattle 633, Atlanta 623...) -->
+    <div class="card" style="margin-top: 0.2rem;">
+        <div class="card-header"><i class="fas fa-city"></i><h3>Utilidad por ciudad · ranking descendente</h3><span class="badge">13 ciudades</span></div>
+        <div class="city-grid-expanded">
+            <!-- orden estricto de mayor a menor (usando los valores reales) -->
+            <div class="city-bar-row"><span class="city-name"><span class="city-rank">1</span>Chicago</span><div class="bar-bg"><div class="bar-fill-city" style="width:100%"></div></div><span class="city-value">$745.4</span></div>
+            <div class="city-bar-row"><span class="city-name"><span class="city-rank">2</span>Denver</span><div class="bar-bg"><div class="bar-fill-city" style="width:88%"></div></div><span class="city-value">$656.2</span></div>
+            <div class="city-bar-row"><span class="city-name"><span class="city-rank">3</span>San Diego</span><div class="bar-bg"><div class="bar-fill-city" style="width:87%"></div></div><span class="city-value">$648.4</span></div>
+            <div class="city-bar-row"><span class="city-name"><span class="city-rank">4</span>Seattle</span><div class="bar-bg"><div class="bar-fill-city" style="width:85%"></div></div><span class="city-value">$633.0</span></div>
+            <div class="city-bar-row"><span class="city-name"><span class="city-rank">5</span>Atlanta</span><div class="bar-bg"><div class="bar-fill-city" style="width:84%"></div></div><span class="city-value">$623.5</span></div>
+            <div class="city-bar-row"><span class="city-name"><span class="city-rank">6</span>Houston</span><div class="bar-bg"><div class="bar-fill-city" style="width:81%"></div></div><span class="city-value">$600.9</span></div>
+            <div class="city-bar-row"><span class="city-name"><span class="city-rank">7</span>Orlando</span><div class="bar-bg"><div class="bar-fill-city" style="width:79%"></div></div><span class="city-value">$586.6</span></div>
+            <div class="city-bar-row"><span class="city-name"><span class="city-rank">8</span>Nueva York</span><div class="bar-bg"><div class="bar-fill-city" style="width:78%"></div></div><span class="city-value">$585.4</span></div>
+            <div class="city-bar-row"><span class="city-name"><span class="city-rank">9</span>San Francisco</span><div class="bar-bg"><div class="bar-fill-city" style="width:77%"></div></div><span class="city-value">$575.3</span></div>
+            <div class="city-bar-row"><span class="city-name"><span class="city-rank">10</span>Phoenix</span><div class="bar-bg"><div class="bar-fill-city" style="width:76%"></div></div><span class="city-value">$567.1</span></div>
+            <div class="city-bar-row"><span class="city-name"><span class="city-rank">11</span>Los Ángeles</span><div class="bar-bg"><div class="bar-fill-city" style="width:74%"></div></div><span class="city-value">$554.9</span></div>
+            <div class="city-bar-row"><span class="city-name"><span class="city-rank">12</span>Miami</span><div class="bar-bg"><div class="bar-fill-city" style="width:72%"></div></div><span class="city-value">$540.4</span></div>
+            <div class="city-bar-row"><span class="city-name"><span class="city-rank">13</span>Dallas</span><div class="bar-bg"><div class="bar-fill-city" style="width:71%"></div></div><span class="city-value">$529.4</span></div>
         </div>
     </div>
 
-    <!-- Fase 3 y 4: Análisis + Interpretación + Decisiones -->
-    
-
-    <!-- Nota de trazabilidad de datos (feedback visual) -->
 
 </div>
-
-
 </body>
 </html>
