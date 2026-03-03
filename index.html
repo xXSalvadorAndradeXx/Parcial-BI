@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Estratégico · Análisis de Utilidad</title>
+    <!-- Font Awesome 6 (free) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Google Fonts (Inter + Space Grotesk para títulos) -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&family=Space+Grotesk:wght@500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #f4f7fb;
+            font-family: 'Inter', sans-serif;
+            padding: 2rem 1.5rem;
+            color: #1e293b;
+            line-height: 1.5;
+        }
+
+        .dashboard-container {
+            max-width: 1440px;
+            margin: 0 auto;
+        }
+
+        /* Header con título y KPI rápido */
+        .header {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .title-section h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 600;
+            font-size: 2rem;
+            color: #0f172a;
+            letter-spacing: -0.02em;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .title-section h1 i {
+            color: #3b82f6;
+            font-size: 2rem;
+        }
+
+        .kpi-strip {
+            display: flex;
+            gap: 1.5rem;
+            background: white;
+            padding: 0.8rem 2rem;
+            border-radius: 60px;
+            box-shadow: 0 8px 20px -6px rgba(0, 20, 40, 0.12);
+            border: 1px solid #e9eef3;
+        }
+
+        .kpi-item {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            font-weight: 500;
+        }
+
+        .kpi-item i {
+            color: #3b82f6;
+            background: #eef2ff;
+            padding: 0.4rem;
+            border-radius: 50%;
+            font-size: 0.9rem;
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .kpi-label {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+            color: #5f6c84;
+        }
+
+        .kpi-value {
+            font-weight: 700;
+            font-size: 1.25rem;
+            color: #0f172a;
+            margin-left: 0.25rem;
+        }
+
+        /* Grid principal */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .card {
+            background: white;
+            border-radius: 24px;
+            padding: 1.25rem 1.5rem;
+            box-shadow: 0 12px 30px -8px rgba(0, 20, 40, 0.1);
+            border: 1px solid #eef2f6;
+            transition: all 0.2s ease;
+        }
+
+        .card:hover {
+            box-shadow: 0 20px 35px -12px rgba(0, 80, 160, 0.15);
+            border-color: #d9e2ef;
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            margin-bottom: 1.2rem;
+            border-bottom: 1px dashed #dee7f0;
+            padding-bottom: 0.8rem;
+        }
+
+        .card-header i {
+            font-size: 1.2rem;
+            color: #3b82f6;
+            background: #eef2ff;
+            padding: 0.5rem;
+            border-radius: 12px;
+        }
+
+        .card-header h3 {
+            font-weight: 600;
+            font-size: 1.1rem;
+            letter-spacing: -0.01em;
+            color: #1e3a5f;
+        }
+
+        .card-header span.sub {
+            margin-left: auto;
+            font-size: 0.8rem;
+            color: #64748b;
+            font-weight: 400;
+        }
+
+        /* tablas internas compactas */
+        .mini-table {
+            width: 100%;
+            font-size: 0.9rem;
+            border-collapse: collapse;
+        }
+
+        .mini-table td {
+            padding: 0.4rem 0;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        .mini-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .value {
+            font-weight: 600;
+            text-align: right;
+            font-family: 'Space Grotesk', monospace;
+        }
+
+        .badge {
+            background: #f1f5f9;
+            padding: 0.2rem 0.8rem;
+            border-radius: 30px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #2c3e5c;
+        }
+
+        .highlight {
+            background: #fef9e7;
+            font-weight: 700;
+            color: #b45309;
+        }
+
+        .color-bar {
+            width: 4px;
+            height: 16px;
+            border-radius: 4px;
+            margin-right: 6px;
+            display: inline-block;
+        }
+
+        .accent-A { background-color: #3b82f6; }
+        .accent-B { background-color: #f97316; }
+        .accent-C { background-color: #10b981; }
+        .accent-D { background-color: #8b5cf6; }
+
+        .city-list {
+            max-height: 200px;
+            overflow-y: auto;
+            font-size: 0.85rem;
+            margin-top: 0.3rem;
+            padding-right: 0.3rem;
+        }
+
+        .city-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.4rem 0;
+            border-bottom: 1px solid #f0f4fa;
+        }
+
+        .city-name {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .city-rank {
+            color: #64748b;
+            font-size: 0.7rem;
+            background: #f1f5f9;
+            border-radius: 10px;
+            padding: 0.1rem 0.4rem;
+        }
+
+        .util-mes {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 0.5rem;
+            background: #f8fafd;
+            border-radius: 18px;
+            padding: 0.7rem 1rem;
+        }
+
+        .util-mes span:first-child {
+            font-weight: 600;
+            color: #334155;
+        }
+
+        .util-mes span:last-child {
+            font-weight: 700;
+            color: #0f172a;
+            font-size: 1.2rem;
+        }
+
+        /* Fase 3 y 4: hallazgos y decisiones */
+        .insight-grid {
+            display: grid;
+            grid-template-columns: 1.2fr 0.9fr 1.2fr;
+            gap: 1.5rem;
+            margin-top: 1.8rem;
+        }
+
+        .insight-card {
+            background: #ffffffd6;
+            backdrop-filter: blur(2px);
+            border-radius: 24px;
+            padding: 1.4rem 1.5rem;
+            border: 1px solid #e2eaf2;
+            box-shadow: 0 10px 20px -12px rgba(0,0,0,0.1);
+        }
+
+        .insight-card h4 {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 600;
+            margin-bottom: 1.2rem;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.02em;
+            color: #334155;
+        }
+
+        .insight-card h4 i {
+            color: #2563eb;
+        }
+
+        .qa-block p {
+            margin-bottom: 0.7rem;
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 1px dashed #dce5f0;
+            padding-bottom: 0.4rem;
+        }
+
+        .qa-block strong {
+            color: #1e3a5f;
+        }
+
+        .qa-block .answer {
+            font-weight: 700;
+            background: #eaf3ff;
+            padding: 0.2rem 0.8rem;
+            border-radius: 20px;
+            color: #1e4a8b;
+        }
+
+        .bullet-list {
+            list-style: none;
+        }
+
+        .bullet-list li {
+            margin-bottom: 0.8rem;
+            font-size: 0.9rem;
+            display: flex;
+            gap: 0.6rem;
+        }
+
+        .bullet-list i.fa-circle-check {
+            color: #10b981;
+            margin-top: 0.2rem;
+            font-size: 0.85rem;
+        }
+
+        .bullet-list i.fa-triangle-exclamation {
+            color: #f59e0b;
+        }
+
+        .limitaciones {
+            background: #f8f3f0;
+            border-radius: 16px;
+            padding: 1rem;
+            margin-top: 1rem;
+            font-size: 0.85rem;
+            border-left: 4px solid #f97316;
+        }
+
+        .footnote {
+            margin-top: 2rem;
+            text-align: center;
+            color: #5f6c84;
+            font-size: 0.8rem;
+            border-top: 1px solid #d9e2ec;
+            padding-top: 1.2rem;
+        }
+    </style>
+</head>
+<body>
+<div class="dashboard-container">
+    <!-- Cabecera + KPI rápidos -->
+    <div class="header">
+        <div class="title-section">
+            <h1><i class="fas fa-chart-line"></i> util·board <span style="font-weight:400; color:#475569; font-size:1.2rem;">análisis estratégico</span></h1>
+        </div>
+        <div class="kpi-strip">
+            <div class="kpi-item"><i class="fas fa-box"></i><span class="kpi-label">Total artículos</span><span class="kpi-value">150</span></div>
+            <div class="kpi-item"><i class="fas fa-dollar-sign"></i><span class="kpi-label">Utilidad total</span><span class="kpi-value">$7,846.50</span></div>
+            <div class="kpi-item"><i class="fas fa-calendar"></i><span class="kpi-label">Meses</span><span class="kpi-value">2</span></div>
+        </div>
+    </div>
+
+    <!-- Grid principal (5 visualizaciones) -->
+    <div class="grid">
+        <!-- 1. Artículos por Categoría -->
+        <div class="card">
+            <div class="card-header"><i class="fas fa-tags"></i><h3>Artículos por Categoría</h3><span class="badge">total 150</span></div>
+            <table class="mini-table">
+                <tr><td><span class="color-bar accent-A"></span>A</td><td class="value">121</td></tr>
+                <tr><td><span class="color-bar accent-B"></span>B</td><td class="value">123</td></tr>
+                <tr><td><span class="color-bar accent-C"></span>C</td><td class="value">127</td></tr>
+                <tr><td><span class="color-bar accent-D"></span>D</td><td class="value">116</td></tr>
+            </table>
+        </div>
+        <!-- 2. Utilidad por Categoría -->
+        <div class="card">
+            <div class="card-header"><i class="fas fa-coins"></i><h3>Utilidad por Categoría</h3></div>
+            <table class="mini-table">
+                <tr><td><span class="color-bar accent-A"></span>A</td><td class="value">$1,892.80</td></tr>
+                <tr><td><span class="color-bar accent-B"></span>B</td><td class="value">$2,049.60</td></tr>
+                <tr><td><span class="color-bar accent-C"></span>C</td><td class="value">$1,982.70</td></tr>
+                <tr><td><span class="color-bar accent-D"></span>D</td><td class="value">$1,921.40</td></tr>
+            </table>
+        </div>
+        <!-- 3. Utilidad por Artículo (5 ejemplos + total) -->
+        <div class="card">
+            <div class="card-header"><i class="fas fa-cube"></i><h3>Utilidad por Artículo</h3><span class="badge">top 5</span></div>
+            <table class="mini-table">
+                <tr><td>Artículo 136</td><td class="value">$165.60</td></tr>
+                <tr><td>Artículo 122</td><td class="value">$160.00</td></tr>
+                <tr><td>Artículo 59</td><td class="value">$172.00</td></tr>
+                <tr><td>Artículo 54</td><td class="value">$218.40</td></tr>
+                <tr><td>Artículo 35</td><td class="value">$184.80</td></tr>
+                <tr style="border-top:2px solid #eef2f6;"><td><strong>Total muestra</strong></td><td class="value"><strong>$900.80</strong></td></tr>
+            </table>
+        </div>
+        <!-- 4. Utilidad por Mes (Ene/Feb) -->
+        <div class="card">
+            <div class="card-header"><i class="fas fa-calendar-alt"></i><h3>Utilidad por Mes</h3></div>
+            <div class="util-mes"><span><i class="far fa-calendar" style="margin-right:6px;"></i>Enero</span><span>$4,128.30</span></div>
+            <div class="util-mes" style="background:#f1f6fd;"><span><i class="far fa-calendar" style="margin-right:6px;"></i>Febrero</span><span>$3,718.20</span></div>
+            <div style="margin-top:0.7rem; font-size:0.8rem; background:#ebf0f8; border-radius:30px; padding:0.3rem 1rem; text-align:center;">
+                <i class="fas fa-arrow-down" style="color:#d97706;"></i>  variación -9.9%
+            </div>
+        </div>
+    </div>
+
+    <!-- Fila extra: 5. Utilidad por Ciudad (extensa) con grid propio -->
+    <div class="card" style="grid-column: 1 / -1; margin-bottom: 0.5rem;">
+        <div class="card-header"><i class="fas fa-city"></i><h3>Utilidad por Ciudad · ranking completo</h3><span class="badge">13 ciudades · total $7,846.50</span></div>
+        <div style="display:grid; grid-template-columns: repeat(4, 1fr); gap: 0.8rem 1.5rem;" class="city-list">
+            <!-- datos extraídos de la última captura -->
+            <div class="city-item"><span class="city-name"><span class="city-rank">1</span>Atlanta</span><span class="value">$623.50</span></div>
+            <div class="city-item"><span class="city-name"><span class="city-rank">2</span>Chicago</span><span class="value">$745.40</span></div>
+            <div class="city-item"><span class="city-name"><span class="city-rank">3</span>Dallas</span><span class="value">$529.40</span></div>
+            <div class="city-item"><span class="city-name"><span class="city-rank">4</span>Denver</span><span class="value">$656.20</span></div>
+            <div class="city-item"><span class="city-name"><span class="city-rank">5</span>Houston</span><span class="value">$600.90</span></div>
+            <div class="city-item"><span class="city-name"><span class="city-rank">6</span>Los Angeles</span><span class="value">$554.90</span></div>
+            <div class="city-item"><span class="city-name"><span class="city-rank">7</span>Miami</span><span class="value">$540.40</span></div>
+            <div class="city-item"><span class="city-name"><span class="city-rank">8</span>Nueva York</span><span class="value">$585.40</span></div>
+            <div class="city-item"><span class="city-name"><span class="city-rank">9</span>Orlando</span><span class="value">$586.60</span></div>
+            <div class="city-item"><span class="city-name"><span class="city-rank">10</span>Phoenix</span><span class="value">$567.10</span></div>
+            <div class="city-item"><span class="city-name"><span class="city-rank">11</span>San Diego</span><span class="value">$648.40</span></div>
+            <div class="city-item"><span class="city-name"><span class="city-rank">12</span>San Francisco</span><span class="value">$575.30</span></div>
+            <div class="city-item"><span class="city-name"><span class="city-rank">13</span>Seattle</span><span class="value">$633.00</span></div>
+        </div>
+    </div>
+
+    <!-- Fase 3 y 4: Análisis + Interpretación + Decisiones -->
+    <div class="insight-grid">
+        <!-- Bloque Preguntas (Fase 3) -->
+        <div class="insight-card">
+            <h4><i class="fas fa-question-circle"></i> Fase 3 · Respuestas rápidas</h4>
+            <div class="qa-block">
+                <p><strong>1. Artículos en categoría B?</strong> <span class="answer">123</span></p>
+                <p><strong>2. Segunda categoría más rentable?</strong> <span class="answer">C ($1,982.70)</span></p>
+                <p><strong>3. Artículo mayor ganancia?</strong> <span class="answer">Art. 54 ($218.40)</span></p>
+                <p><strong>4. Ciudad con mayor utilidad?</strong> <span class="answer">Chicago ($745.40)</span></p>
+                <p><strong>5. Top 3 ciudades mayor utilidad?</strong> <span class="answer">Chicago, Denver, San Diego</span></p>
+            </div>
+        </div>
+        <!-- KPI y Hallazgos clave -->
+        <div class="insight-card">
+            <h4><i class="fas fa-chart-simple"></i> KPI · Hallazgos clave</h4>
+            <ul class="bullet-list">
+                <li><i class="fa-solid fa-circle-check" style="color:#10b981;"></i> <strong>Ticket promedio ciudad:</strong> $603.58</li>
+                <li><i class="fa-solid fa-circle-check" style="color:#10b981;"></i> <strong>Categoría más rentable:</strong> B ($2,049.60)</li>
+                <li><i class="fa-solid fa-circle-check" style="color:#10b981;"></i> <strong>Mayor utilidad/mes:</strong> Enero ($4,128.30)</li>
+                <li><i class="fa-solid fa-triangle-exclamation" style="color:#f59e0b;"></i> <strong>Caída febrero vs enero:</strong> -9.9%</li>
+                <li><i class="fa-solid fa-triangle-exclamation" style="color:#f59e0b;"></i> <strong>Rango estrecho entre cat. A,C,D:</strong> dif. < $30</li>
+            </ul>
+        </div>
+        <!-- Recomendaciones estratégicas + limitaciones -->
+        <div class="insight-card">
+            <h4><i class="fas fa-lightbulb"></i> Recomendaciones gerenciales</h4>
+            <ul class="bullet-list" style="margin-bottom:0.5rem;">
+                <li><i class="fa-regular fa-hand-point-right" style="color:#2563eb;"></i> <strong>Impulsar categoría C:</strong> segunda más rentable y gran volumen (127 artículos).</li>
+                <li><i class="fa-regular fa-hand-point-right" style="color:#2563eb;"></i> <strong>Enfoque en Chicago, Denver, San Diego:</strong> concentran 26% de utilidad total.</li>
+                <li><i class="fa-regular fa-hand-point-right" style="color:#2563eb;"></i> <strong>Revisar mezcla de producto en Feb:</strong> la caída mensual sugiere estacionalidad; evaluar promociones.</li>
+            </ul>
+            <div class="limitaciones">
+                <i class="fas fa-exclamation-circle" style="margin-right:6px;"></i> <strong>Limitaciones:</strong> no hay desglose por cliente, ni costo unitario; utilidad mensual solo 2 meses; artículos sin nombre específico; ciudades con posible sesgo geográfico.
+            </div>
+        </div>
+    </div>
+
+    <!-- Nota de trazabilidad de datos (feedback visual) -->
+    <div class="footnote">
+        <i class="fas fa-clipboard-check"></i> Datos integrados de 5 capturas · Dashboard interactivo con jerarquía visual y codificación de colores por categoría.  
+    </div>
+</div>
+
+<!-- pequeño script para resaltar respuestas (opcional) -->
+<script>
+    // No se requiere interactividad compleja, solo se resalta con estilo.
+    console.log('Dashboard estratégico cargado. Respuestas Fase 3 visibles.');
+</script>
+
+</body>
+</html>
